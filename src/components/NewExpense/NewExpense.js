@@ -5,32 +5,29 @@ import ExpenseForm from "./ExpenseForm";
 import AddNewExpense from "./AddNewExpense";
 
 const NewExpense = (props) => {
+  const [addingNewExpense, setAddingNewExpense] = useState(false);
+  const toggleAddNewExpense = () => {
+    setAddingNewExpense(!addingNewExpense);
+  };
   const saveExpenseDataHandler = (enteredExpenseData) => {
     const expenseData = {
       ...enteredExpenseData,
       id: Math.random().toString(),
     };
     props.onAddExpense(expenseData);
-  };
-
-  const [addingNewExpense, setAddingNewExpense] = useState(false);
-  const toggleAddNewExpense = () => {
-    setAddingNewExpense(!addingNewExpense);
+    setAddingNewExpense(false);
   };
 
   return (
-    <div>
+    <div className="new-expense">
       {!addingNewExpense && (
         <AddNewExpense onClickHandler={toggleAddNewExpense} />
       )}
-
       {addingNewExpense && (
-        <div className="new-expense">
-          <ExpenseForm
-            onSaveExpenseData={saveExpenseDataHandler}
-            onClickHandler={toggleAddNewExpense}
-          />
-        </div>
+        <ExpenseForm
+          onSaveExpenseData={saveExpenseDataHandler}
+          onClickHandler={toggleAddNewExpense}
+        />
       )}
     </div>
   );
